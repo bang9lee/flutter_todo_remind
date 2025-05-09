@@ -7,6 +7,18 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     PreferredSizeWidget;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
+        backgroundColor: Color(0xFF5714E6),
+        foregroundColor: Colors.white,
+        onPressed: () {
+          // TODO 바텀시트 보여주기
+        },
+        child: Icon(
+          Icons.add,
+          size: 40,
+        ),
+      ),
       appBar: AppBar(
         title: Text(
           'TODO 리스트',
