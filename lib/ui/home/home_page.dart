@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_remind/ui/home/todo_item.dart';
-import 'package:flutter_todo_remind/ui/home/todo_text_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -13,6 +12,77 @@ class HomePage extends StatelessWidget {
         foregroundColor: Colors.white,
         onPressed: () {
           // TODO 바텀시트 보여주기
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              String content = "";
+              return Container(
+                height: 300,
+                width: double.infinity,
+                padding: EdgeInsets.only(left: 24, right: 24, top: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 할일 글자
+                    Text('할일'),
+                    SizedBox(height: 11),
+                    // 글자 입력하는 테스트필드
+                    TextField(
+                      onChanged: (value) {
+                        content = value;
+                      },
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF1F2024),
+                      ),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Color(0xFF1414E6),
+                            width: 1.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.grey[300]!,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    // 저장 버튼
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print(content);
+                          // TODO content 파이어베이스에 저장!
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                            Color(0xFF5714E6),
+                          ),
+                          foregroundColor: WidgetStatePropertyAll(Colors.white),
+                        ),
+                        child: Text(
+                          '저장',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 24),
+                  ],
+                ),
+              );
+            },
+          );
         },
         child: Icon(
           Icons.add,
