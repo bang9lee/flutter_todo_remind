@@ -1,16 +1,3 @@
-# flutter_todo_remind
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# 투두리스트
+- 다음에 파이어베이스 연동하는게 구글로그인한다음에 저메모내용 불러오는것을 하는걸까요~?
+    - 로그인 없이 CRUD 하고 구글로그인 진행하겠습니다!

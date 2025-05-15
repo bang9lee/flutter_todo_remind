@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Color(0xFF5714E6),
         foregroundColor: Colors.white,
         onPressed: () {
-          // TODO 바텀시트 보여주기
+          // TODO 키보드 가리기
           showModalBottomSheet(
             context: context,
             builder: (context) {
