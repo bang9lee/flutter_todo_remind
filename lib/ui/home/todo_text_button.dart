@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TodoTextButton extends StatelessWidget {
-  TodoTextButton({
+  const TodoTextButton({super.key, 
     required this.text,
     required this.onTap,
   });
@@ -20,7 +20,7 @@ class TodoTextButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.bold,
             color: Color(0xFF5773FF),
