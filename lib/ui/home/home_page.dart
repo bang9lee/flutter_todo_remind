@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_remind/ui/home/todo_item.dart';
 
@@ -36,7 +37,11 @@ class _HomePageState extends State<HomePage> {
 
     for (var doc in documentList) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      newList.add(data);
+      Map<String, dynamic> datawithId = {
+        ...data,
+        "id": doc.id,
+      };
+      newList.add(datawithId);
     }
 
     setState(() {
@@ -174,17 +179,30 @@ class _HomePageState extends State<HomePage> {
         child: ListView.separated(
           itemBuilder: (context, index) {
             Map<String, dynamic> todo = todoDatas[index];
-            // {"isDone"} : false, "content" : "hi" }
+            // {"isDone"} : false, "content" : "hi" "id" : sdfsafsdfsfd}
+            print(todo);
 
             return TodoItem(
                 isChecked: todo["isDone"],
                 text: todo["content"],
-                onDelete: () {},
-                onEdit: () {}
-            );
+                onDelete: () async {
+                  // 1. firestore 인스턴스 가지고오기
+                  FirebaseFirestore firestore = FirebaseFirestore.instance;
+                  // 2. 컬렉션 참조 만들기
+                  CollectionReference colRef =
+                      firestore.collection('todo_data');
+                  // 3. 컬렉션 참조로 특정 문서에 대한 문서참조 만들기. =>
+                  DocumentReference docRef = colRef.doc(todo["id"]);
+                  // 4. 삭제
+                  await docRef.delete();
+                  loadTodoList();
+                },
+                onEdit: () {});
           },
           separatorBuilder: (context, index) {
-            return SizedBox(height: 10,);
+            return SizedBox(
+              height: 10,
+            );
           },
           itemCount: todoDatas.length,
         ),
