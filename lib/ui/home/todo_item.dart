@@ -7,6 +7,7 @@ class TodoItem extends StatelessWidget {
     required this.text,
     required this.onDelete,
     required this.onEdit,
+    required this.onCheckTap,
   });
 
   /// 1. 체크여부 -> bool
@@ -21,6 +22,8 @@ class TodoItem extends StatelessWidget {
   /// 4. 수정 터치했을 때 실행될 함수 -> void Function()
   final void Function() onEdit;
 
+  final void Function() onCheckTap;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,26 +37,31 @@ class TodoItem extends StatelessWidget {
         children: [
           // 1. CheckBox 사용
           // 2. Container + Icon 이용해서 구현
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: const Color(0xFFD6D6D6),
-                width: 2,
+          GestureDetector(
+            onTap: () {
+              onCheckTap();
+            },
+            child: Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: const Color(0xFFD6D6D6),
+                  width: 2,
+                ),
               ),
+              // 3항 연산자
+              // boolean ? 참 : 거짓
+              child: isChecked
+                  ? const Icon(
+                      Icons.check,
+                      size: 20,
+                      color: Colors.blue,
+                    )
+                  : null,
             ),
-            // 3항 연산자
-            // boolean ? 참 : 거짓
-            child: isChecked
-                ? const Icon(
-                    Icons.check,
-                    size: 20,
-                    color: Colors.blue,
-                  )
-                : null,
           ),
           const SizedBox(width: 12),
           Expanded(
