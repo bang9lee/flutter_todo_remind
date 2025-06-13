@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_remind/data/model/todo.dart';
 import 'package:flutter_todo_remind/ui/home/todo_item.dart';
 
 // todolist fierstore
@@ -12,9 +12,8 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
-
 class _HomePageState extends State<HomePage> {
-  List<Map<String, dynamic>> todoDatas = [];
+  List<Todo> todoDatas = [];
 
   @override
   void initState() {
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     QuerySnapshot snapshot = await colRef.get();
     List<QueryDocumentSnapshot> documentList = snapshot.docs;
     // 4. 가지고온 데이터를 변환해주기//
-    List<Map<String, dynamic>> newList = [];
+    List<Todo> newList = [];
 
     for (var doc in documentList) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -41,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         ...data,
         "id": doc.id,
       };
-      newList.add(datawithId);
+      newList.add(Todo.fromJson(datawithId));
     }
 
     setState(() {
@@ -179,7 +178,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(20),
         child: ListView.separated(
           itemBuilder: (context, index) {
-            Map<String, dynamic> todo = todoDatas[index];
+            Todo todo = todoDatas[index];
             // {"isDone"} : false, "content" : "hi" "id" : sdfsafsdfsfd}
             print(todo);
 
@@ -193,17 +192,17 @@ class _HomePageState extends State<HomePage> {
                 // 2. 컬렉션 참조 만들기
                 CollectionReference colRef = firestore.collection('todo_data');
                 // 3. 문서 참조 만들기
-                DocumentReference docRef = colRef.doc(todo['id']);
+                DocumentReference docRef = colRef.doc(todo.id);
                 // 4. 문서 참조 이용해서 문서 업데이트
-                bool current = todo['isDone'];
+                bool current = todo.isDone;
                 bool nextValue = !current;
                 await docRef.update({
                   'isDone': nextValue,
                 });
                 loadTodoList();
               },
-                isChecked: todo["isDone"],
-                text: todo["content"],
+                isChecked: todo.isDone,
+                text: todo.content,
                 onDelete: () async {
                   // 1. firestore 인스턴스 가지고오기
                   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -211,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                   CollectionReference colRef =
                       firestore.collection('todo_data');
                   // 3. 컬렉션 참조로 특정 문서에 대한 문서참조 만들기. =>
-                  DocumentReference docRef = colRef.doc(todo["id"]);
+                  DocumentReference docRef = colRef.doc(todo.id);
                   // 4. 삭제
                   await docRef.delete();
                   loadTodoList();
